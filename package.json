@@ -1,0 +1,28 @@
+{
+  "name": "cartesian",
+  "version": "0.0.1",
+  "description": "simple neural network library",
+  "main": "index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    "test": "npm run lint && mocha --recursive --compilers js:babel-core/register test",
+    "test:watch": "npm run test -- --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tpgmartin/cartesian.git"
+  },
+  "author": "Tom Martin <tom@tpgmartin.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tpgmartin/cartesian/issues"
+  },
+  "homepage": "https://github.com/tpgmartin/cartesian#readme",
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-preset-es2015": "^6.22.0",
+    "chai": "^3.5.0",
+    "eslint": "^3.15.0",
+    "mocha": "^3.2.0"
+  }
+}
