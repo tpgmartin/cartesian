@@ -44,4 +44,20 @@ describe('Cartesian', () => {
 
   })
 
+  describe('train', () => {
+
+    it('should normalise input examples', () => {
+      const cartesian = new Cartesian([
+        { input: [0, 0], output: [ 0 ] },
+        { input: [0, 1], output: [ 1 ] },
+        { input: [1, 0], output: [ 1 ] },
+        { input: [1, 1], output: [ 0 ] }
+      ])
+
+      expect.fail(cartesian)
+
+    })
+
+  })
+
 })

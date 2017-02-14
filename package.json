@@ -1,7 +1,7 @@
 {
   "name": "cartesian",
   "version": "0.0.1",
-  "description": "simple neural network library",
+  "description": "the simple neural network library with a stupid name",
   "main": "index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
