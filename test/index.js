@@ -1,8 +1,12 @@
 /*eslint no-console: ["error", { allow: ["warn", "log", "error"] }] */
 
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
+import sinon from 'sinon'
+import sinonChai from 'sinon-chai'
 import Cartesian from '../src/cartesian'
-import { sigmoid, sigmoidDerivative } from '../src/helpers'
+import * as helpers from '../src/helpers'
+
+chai.use(sinonChai)
 
 describe('Cartesian', () => {
 
@@ -18,8 +22,8 @@ describe('Cartesian', () => {
     it('should be initialised with default paramters', () => {
       const cartesian = new Cartesian()
 
-      expect(cartesian.activation).to.equal(sigmoid)
-      expect(cartesian.activationDerivative).to.equal(sigmoidDerivative)
+      expect(cartesian.activation).to.equal(helpers.sigmoid)
+      expect(cartesian.activationDerivative).to.equal(helpers.sigmoidDerivative)
       expect(cartesian.hiddenLayers).to.equal(1)
       expect(cartesian.hiddenUnits).to.equal(3)
       expect(cartesian.iterations).to.equal(1000)
@@ -34,8 +38,8 @@ describe('Cartesian', () => {
       }
       const cartesian = new Cartesian(options)
 
-      expect(cartesian.activation).to.equal(sigmoid)
-      expect(cartesian.activationDerivative).to.equal(sigmoidDerivative)
+      expect(cartesian.activation).to.equal(helpers.sigmoid)
+      expect(cartesian.activationDerivative).to.equal(helpers.sigmoidDerivative)
       expect(cartesian.hiddenLayers).to.equal(options.hiddenLayers)
       expect(cartesian.hiddenUnits).to.equal(3)
       expect(cartesian.iterations).to.equal(options.iterations)
@@ -47,14 +51,27 @@ describe('Cartesian', () => {
   describe('train', () => {
 
     it('should normalise input examples', () => {
-      const cartesian = new Cartesian([
-        { input: [0, 0], output: [ 0 ] },
-        { input: [0, 1], output: [ 1 ] },
-        { input: [1, 0], output: [ 1 ] },
-        { input: [1, 1], output: [ 0 ] }
+
+      sinon.spy(helpers, 'normalize')
+
+      const cartesian = new Cartesian()
+
+      cartesian.train([
+        { input: [0, 0], output: [0] },
+        { input: [0, 1], output: [1] },
+        { input: [1, 0], output: [1] },
+        { input: [1, 1], output: [0] }
       ])
 
-      expect.fail(cartesian)
+      const expectedOutput = {
+        input: [[0, 0], [0, 1], [1, 0], [1, 1]],
+        output: [[0], [1], [1], [0]]
+      }
+
+      expect(helpers.normalize.returnValues[0]).to.deep.equal(expectedOutput)
+      expect(helpers.normalize).to.have.been.calledOnce
+
+      helpers.normalize.restore()
 
     })
 

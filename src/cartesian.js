@@ -1,4 +1,4 @@
-import { sigmoid, sigmoidDerivative } from './helpers'
+import { normalize, sigmoid, sigmoidDerivative } from './helpers'
 
 export default class Cartesian {
 
@@ -16,6 +16,10 @@ export default class Cartesian {
     this.hiddenUnits = hiddenUnits
     this.iterations = iterations
     this.learningRate = learningRate
+  }
+
+  train(data) {
+    normalize(data)
   }
 
 }
