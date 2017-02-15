@@ -3,8 +3,8 @@
 import chai, { expect } from 'chai'
 import sinon from 'sinon'
 import sinonChai from 'sinon-chai'
-import Cartesian from '../src/cartesian'
-import * as helpers from '../src/helpers'
+import Cartesian from '../../src/cartesian'
+import * as helpers from '../../src/helpers'
 
 chai.use(sinonChai)
 
@@ -72,6 +72,38 @@ describe('Cartesian', () => {
       expect(helpers.normalize).to.have.been.calledOnce
 
       helpers.normalize.restore()
+
+    })
+
+    it('should set weights for network', () => {
+
+      sinon.spy(helpers, 'setWeights')
+
+      const cartesian = new Cartesian()
+
+      cartesian.train([
+        { input: [0, 0], output: [0] },
+        { input: [0, 1], output: [1] },
+        { input: [1, 0], output: [1] },
+        { input: [1, 1], output: [0] }
+      ])
+
+      const expectedOutput = [
+        [
+          [ 0.5, 0.5, 0.5 ],
+          [ 0.5, 0.5, 0.5 ]
+        ],
+        [
+          [ 0.5 ],
+          [ 0.5 ],
+          [ 0.5 ]
+        ]
+      ]
+
+      expect(helpers.setWeights.returnValues[0]).to.deep.equal(expectedOutput)
+      expect(helpers.setWeights).to.have.been.calledOnce
+
+      helpers.setWeights.restore()
 
     })
 

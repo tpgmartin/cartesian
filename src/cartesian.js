@@ -1,10 +1,10 @@
-import { normalize, sigmoid, sigmoidDerivative } from './helpers'
+import * as helpers from './helpers'
 
 export default class Cartesian {
 
   constructor({
-      activation = sigmoid,
-      activationDerivative = sigmoidDerivative,
+      activation = helpers.sigmoid,
+      activationDerivative = helpers.sigmoidDerivative,
       hiddenLayers = 1,
       hiddenUnits = 3,
       iterations = 1000,
@@ -16,10 +16,11 @@ export default class Cartesian {
     this.hiddenUnits = hiddenUnits
     this.iterations = iterations
     this.learningRate = learningRate
+    this.weights = []
   }
 
   train(data) {
-    normalize(data)
+    helpers.normalize(data)
   }
 
 }

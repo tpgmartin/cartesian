@@ -1,11 +1,3 @@
-export function sigmoid(x) {
-  return 1 / (1 + Math.exp(-x))
-}
-
-export function sigmoidDerivative(x) {
-  return sigmoid(x)*(1-sigmoid(x))
-}
-
 export function normalize(data) {
   const ret = { input: [], output: [] }
 
@@ -16,3 +8,16 @@ export function normalize(data) {
 
   return ret
 }
+
+export function setWeights() {
+
+}
+
+export function sigmoid(x) {
+  return 1 / (1 + Math.exp(-x))
+}
+
+export function sigmoidDerivative(x) {
+  return sigmoid(x)*(1-sigmoid(x))
+}
+
