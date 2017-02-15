@@ -20,7 +20,9 @@ export default class Cartesian {
   }
 
   train(data) {
-    helpers.normalize(data)
+    const normalizedData = helpers.normalize(data)
+
+    helpers.setWeights(normalizedData, this.hiddenUnits, this.weights)
   }
 
 }
