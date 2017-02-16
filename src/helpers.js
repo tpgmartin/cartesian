@@ -1,3 +1,17 @@
+export function backwardPropagation() {
+
+}
+
+export function forwardPropagation(normalizedData) {
+
+  // TODO
+  // 1. Get activation, weights
+  // 2. For each layer, for each data sample, find dot product of weight with layer input
+  // 3. Apply activation function elementwise
+  // 4. Return output result
+
+}
+
 export function normalize(data) {
   const ret = { input: [], output: [] }
 
