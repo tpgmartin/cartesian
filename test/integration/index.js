@@ -130,6 +130,27 @@ describe('Cartesian', () => {
 
     })
 
+    it('should call forwardPropagation and return network output', () => {
+
+      expect.fail()
+
+      sinon.spy(helpers, 'forwardPropagation')
+
+      const cartesian = new Cartesian()
+
+      cartesian.train([
+        { input: [0, 0], output: [0] },
+        { input: [0, 1], output: [1] },
+        { input: [1, 0], output: [1] },
+        { input: [1, 1], output: [0] }
+      ])
+
+      expect(helpers.forwardPropagation.callCount).to.equal(cartesian.iterations)
+
+      helpers.forwardPropagation.restore()
+
+    })
+
   })
 
 })

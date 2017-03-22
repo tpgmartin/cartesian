@@ -25,7 +25,7 @@ export default class Cartesian {
     helpers.setWeights(normalizedData, this.hiddenUnits, this.weights)
 
     for (let i = 0; i < this.iterations; i++) {
-      helpers.forwardPropagation(normalizedData)
+      helpers.forwardPropagation(normalizedData, this.activation, this.weights)
       helpers.backwardPropagation()
     }
 
