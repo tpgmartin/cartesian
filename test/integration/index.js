@@ -102,8 +102,7 @@ describe('Cartesian', () => {
         ]
       ]
 
-      expect(cartesian._setWeights.returnValues[0])
-                                  .to.deep.equal(expectedOutput)
+      expect(cartesian.weights).to.deep.equal(expectedOutput)
       expect(cartesian._setWeights).to.have.been.calledOnce
 
       cartesian._setWeights.restore()
@@ -133,7 +132,7 @@ describe('Cartesian', () => {
 
     })
 
-    it('should call forwardPropagation and' +
+    it('should call forwardPropagation and ' +
        'return network output vector', () => {
 
       const weights = [
@@ -153,6 +152,9 @@ describe('Cartesian', () => {
       }
       const activation = helpers.sigmoid
 
+      cartesian.weights = weights
+      cartesian.activation = activation
+
       const expectedOutput = [
         [
           [ 0.5, 0.5, 0.5 ],
@@ -168,8 +170,15 @@ describe('Cartesian', () => {
         ]
       ]
 
-      expect(cartesian._forwardPropagation(normalizedData, activation, weights))
+      expect(cartesian._forwardPropagation(normalizedData))
                       .to.deep.equal(expectedOutput)
+
+    })
+
+    it('should call backwardPropagation and ' +
+       'return network output vector', () => {
+
+      throw Error
 
     })
 

@@ -21,51 +21,61 @@ export default class Cartesian {
 
   _backwardPropagation() {
 
+    // TODO
+    // 1. Declare activationDerivative
+    // 2. Find error, subtract ouput vector from results vector
+    // 3. For each layer find,
+    //    * weight delta
+    //    * change
+    //    * update weights for layer
+    // 4. Return output error
+
   }
 
-  _forwardPropagation(normalizedData, activation, weights) {
+  _forwardPropagation(normalizedData) {
 
     const results = []
     // input to hidden
-    results.push(helpers.logits(weights[0], normalizedData.input, activation))
+    results.push(helpers.logits(this.weights[0],
+                                normalizedData.input,
+                                this.activation))
 
     // hidden to output
-    results.push(helpers.logits(weights[weights.length - 1],
-                 results[results.length - 1], activation))
+    results.push(helpers.logits(this.weights[this.weights.length - 1],
+                 results[results.length - 1], this.activation))
 
     return results
 
   }
 
-  _setWeights(normalizedData, hiddenUnits, weights) {
+  _setWeights(normalizedData) {
 
-    weights.push([])
+    this.weights.push([])
     for (let i = 0; i < normalizedData.input[0].length; i++) {
-      weights[0].push([])
-      for (let j = 0; j < hiddenUnits; j++) {
-        weights[0][i].push(0.5)
+      this.weights[0].push([])
+      for (let j = 0; j < this.hiddenUnits; j++) {
+        this.weights[0][i].push(0.5)
       }
     }
 
-    weights.push([])
-    for (let i = 0; i < hiddenUnits; i++) {
-      weights[1].push([])
+    this.weights.push([])
+    for (let i = 0; i < this.hiddenUnits; i++) {
+      this.weights[1].push([])
       for (let j = 0; j < normalizedData.output[0].length; j++) {
-        weights[1][i].push(0.5)
+        this.weights[1][i].push(0.5)
       }
     }
-
-    return weights
 
   }
 
   train(data) {
+
     const normalizedData = helpers.normalize(data)
 
-    this._setWeights(normalizedData, this.hiddenUnits, this.weights)
+    this._setWeights(normalizedData)
 
     for (let i = 0; i < this.iterations; i++) {
-      this._forwardPropagation(normalizedData, this.activation, this.weights)
+      this._forwardPropagation(normalizedData)
       this._backwardPropagation()
     }
 
