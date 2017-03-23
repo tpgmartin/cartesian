@@ -1,22 +1,8 @@
+import * as linear_algebra from './linear_algebra'
+
 export function logits(weightsForLayer, input, activation) {
 
-  const matMulRes = []
-
-  for (let i = 0; i < input.length; i++) {
-    matMulRes.push([])
-  }
-
-  for (let i = 0; i < input.length; i++) {
-    for (let j = 0; j < weightsForLayer[0].length; j++) {
-      let sum = 0
-      for (let k = 0; k < weightsForLayer.length; k++) {
-        sum += input[i][k] * weightsForLayer[k][j]
-      }
-      matMulRes[i].push(sum)
-    }
-  }
-
-  const activationRes = matMulRes
+  const activationRes = linear_algebra.matrixMultiplication(weightsForLayer, input)
 
   for (let i = 0; i < activationRes.length; i++) {
     for (let j = 0; j < activationRes[0].length; j++) {
