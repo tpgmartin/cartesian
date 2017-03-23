@@ -16,12 +16,15 @@ describe('Helpers', () => {
                      [1, 1]]
       const activation = helpers.sigmoid
 
-      const expectedOutput = [[ 0.5, 0.5, 0.5 ],
-                              [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-                              [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-                              [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]]
+      const expectedOutput = [
+        [ 0.5, 0.5, 0.5 ],
+        [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+        [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+        [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]
+      ]
 
-      expect(helpers.logits(weights, input, activation)).to.deep.equal(expectedOutput)
+      expect(helpers.logits(weights, input, activation))
+                    .to.deep.equal(expectedOutput)
     })
 
   })

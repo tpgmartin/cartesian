@@ -10,17 +10,22 @@ chai.use(sinonChai)
 
 describe('Cartesian', () => {
 
+  let cartesian
+
+  beforeEach(() => {
+    cartesian = new Cartesian()
+  })
+
   describe('constructor', () => {
 
     it('should return new neuron object', () => {
-      const cartesian = new Cartesian()
 
       expect(cartesian).to.be.an('object')
       expect(cartesian).to.be.instanceof(Cartesian)
+
     })
 
     it('should be initialised with default paramters', () => {
-      const cartesian = new Cartesian()
 
       expect(cartesian.activation).to.equal(helpers.sigmoid)
       expect(cartesian.activationDerivative).to.equal(helpers.sigmoidDerivative)
@@ -28,6 +33,7 @@ describe('Cartesian', () => {
       expect(cartesian.hiddenUnits).to.equal(3)
       expect(cartesian.iterations).to.equal(1000)
       expect(cartesian.learningRate).to.equal(0.1)
+
     })
 
     it('should be initialised with custome paramters', () => {
@@ -54,8 +60,6 @@ describe('Cartesian', () => {
 
       sinon.spy(helpers, 'normalize')
 
-      const cartesian = new Cartesian()
-
       cartesian.train([
         { input: [0, 0], output: [0] },
         { input: [0, 1], output: [1] },
@@ -77,9 +81,7 @@ describe('Cartesian', () => {
 
     it('should set weights for network', () => {
 
-      sinon.spy(helpers, 'setWeights')
-
-      const cartesian = new Cartesian()
+      sinon.spy(cartesian, '_setWeights')
 
       cartesian.train([
         { input: [0, 0], output: [0] },
@@ -100,20 +102,19 @@ describe('Cartesian', () => {
         ]
       ]
 
-      expect(helpers.setWeights.returnValues[0]).to.deep.equal(expectedOutput)
-      expect(helpers.setWeights).to.have.been.calledOnce
+      expect(cartesian._setWeights.returnValues[0])
+                                  .to.deep.equal(expectedOutput)
+      expect(cartesian._setWeights).to.have.been.calledOnce
 
-      helpers.setWeights.restore()
+      cartesian._setWeights.restore()
 
     })
 
-    it('should call forwardPropagation, backwardPropagation number of times \
-        equal to \'iterations\'', () => {
+    it('should call forwardPropagation, backwardPropagation number of times ' +
+       'equal to \'iterations\'', () => {
 
-      sinon.spy(helpers, 'forwardPropagation')
-      sinon.spy(helpers, 'backwardPropagation')
-
-      const cartesian = new Cartesian()
+      sinon.spy(cartesian, '_forwardPropagation')
+      sinon.spy(cartesian, '_backwardPropagation')
 
       cartesian.train([
         { input: [0, 0], output: [0] },
@@ -122,15 +123,18 @@ describe('Cartesian', () => {
         { input: [1, 1], output: [0] }
       ])
 
-      expect(helpers.forwardPropagation.callCount).to.equal(cartesian.iterations)
-      expect(helpers.backwardPropagation.callCount).to.equal(cartesian.iterations)
+      expect(cartesian._forwardPropagation.callCount)
+                                          .to.equal(cartesian.iterations)
+      expect(cartesian._backwardPropagation.callCount)
+                                           .to.equal(cartesian.iterations)
 
-      helpers.forwardPropagation.restore()
-      helpers.backwardPropagation.restore()
+      cartesian._forwardPropagation.restore()
+      cartesian._backwardPropagation.restore()
 
     })
 
-    it('should call forwardPropagation and return network output vector', () => {
+    it('should call forwardPropagation and' +
+       'return network output vector', () => {
 
       const weights = [
         [
@@ -164,7 +168,8 @@ describe('Cartesian', () => {
         ]
       ]
 
-      expect(helpers.forwardPropagation(normalizedData, activation, weights)).to.deep.equal(expectedOutput)
+      expect(cartesian._forwardPropagation(normalizedData, activation, weights))
+                      .to.deep.equal(expectedOutput)
 
     })
 
