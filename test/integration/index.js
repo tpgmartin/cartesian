@@ -130,24 +130,41 @@ describe('Cartesian', () => {
 
     })
 
-    it('should call forwardPropagation and return network output', () => {
+    it('should call forwardPropagation and return network output vector', () => {
 
-      expect.fail()
+      const weights = [
+        [
+          [ 0.5, 0.5, 0.5 ],
+          [ 0.5, 0.5, 0.5 ]
+        ],
+        [
+          [ 0.5 ],
+          [ 0.5 ],
+          [ 0.5 ]
+        ]
+      ]
+      const normalizedData = {
+        input: [[0, 0], [0, 1], [1, 0], [1, 1]],
+        output: [[0], [1], [1], [0]]
+      }
+      const activation = helpers.sigmoid
 
-      sinon.spy(helpers, 'forwardPropagation')
+      const expectedOutput = [
+        [
+          [ 0.5, 0.5, 0.5 ],
+          [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+          [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+          [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]
+        ],
+        [
+          [ 0.679178699175393 ],
+          [ 0.7178231032752898 ],
+          [ 0.7178231032752898 ],
+          [ 0.7496202290400685 ]
+        ]
+      ]
 
-      const cartesian = new Cartesian()
-
-      cartesian.train([
-        { input: [0, 0], output: [0] },
-        { input: [0, 1], output: [1] },
-        { input: [1, 0], output: [1] },
-        { input: [1, 1], output: [0] }
-      ])
-
-      expect(helpers.forwardPropagation.callCount).to.equal(cartesian.iterations)
-
-      helpers.forwardPropagation.restore()
+      expect(helpers.forwardPropagation(normalizedData, activation, weights)).to.deep.equal(expectedOutput)
 
     })
 
