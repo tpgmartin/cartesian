@@ -5,6 +5,42 @@ import * as linear_algebra from '../../src/linear_algebra'
 
 describe('Linear Algebra', () => {
 
+  describe('dotProduct', () => {
+
+    it('should return dot product of valid matrix', () => {
+      const A = [[1], [2], [3]]
+      const B = [[4], [5], [6]]
+
+      const expectedOutput = [[32]]
+
+      expect(linear_algebra.dotProduct(A, B))
+                    .to.deep.equal(expectedOutput)
+    })
+
+  })
+
+  describe('matrixAddition', () => {
+
+    it('should add valid matrices together', () => {
+      const A = [[ 1, 2, 3 ],
+                 [ 4, 5, 6 ],
+                 [ 7, 8, 9 ]]
+      const B = [[ -1, -2, -3 ],
+                 [ -4, -5, -6 ],
+                 [ -7, -8, -9 ]]
+
+      const expectedOutput = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+      ]
+
+      expect(linear_algebra.matrixAddition(A, B))
+                    .to.deep.equal(expectedOutput)
+    })
+
+  })
+
   describe('matrixMultiplication', () => {
 
     it('should multiply valid matrices together', () => {
@@ -27,10 +63,32 @@ describe('Linear Algebra', () => {
 
   })
 
+  describe('matrixSubtraction', () => {
+
+    it('should add valid matrices together', () => {
+      const A = [[ 1, 2, 3 ],
+                 [ 4, 5, 6 ],
+                 [ 7, 8, 9 ]]
+      const B = [[ -1, -2, -3 ],
+                 [ -4, -5, -6 ],
+                 [ -7, -8, -9 ]]
+
+      const expectedOutput = [
+        [2, 4, 6],
+        [8, 10, 12],
+        [14, 16, 18]
+      ]
+
+      expect(linear_algebra.matrixSubtraction(A, B))
+                    .to.deep.equal(expectedOutput)
+    })
+
+  })
+
   describe('scalarMultiplication', () => {
 
     it('should multiply each element in matrix by scalar', () => {
-      const scalar = 5
+      const scalar = [[5]]
       const matrix = [[ 1, 2, 3 ],
                       [ 4, 5, 6 ],
                       [ 7, 8, 9 ]]
@@ -42,6 +100,23 @@ describe('Linear Algebra', () => {
       ]
 
       expect(linear_algebra.scalarMultiplication(scalar, matrix))
+                    .to.deep.equal(expectedOutput)
+    })
+
+  })
+
+  describe('transpose', () => {
+
+    it('should transpose matrix', () => {
+      const matrix = [[ 1, 2, 3 ],
+                      [ 4, 5, 6 ],
+                      [ 7, 8, 9 ]]
+
+      const expectedOutput = [[ 1, 4, 7 ],
+                              [ 2, 5, 8 ],
+                              [ 3, 6, 9 ]]
+
+      expect(linear_algebra.transpose(matrix))
                     .to.deep.equal(expectedOutput)
     })
 
