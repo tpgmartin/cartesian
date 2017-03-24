@@ -1,9 +1,9 @@
 export function matrixMultiplication(a, b) {
 
-  const matMulRes = []
+  const result = []
 
   for (let i = 0; i < b.length; i++) {
-    matMulRes.push([])
+    result.push([])
   }
 
   for (let i = 0; i < b.length; i++) {
@@ -12,10 +12,16 @@ export function matrixMultiplication(a, b) {
       for (let k = 0; k < a.length; k++) {
         sum += b[i][k] * a[k][j]
       }
-      matMulRes[i].push(sum)
+      result[i].push(sum)
     }
   }
 
-  return matMulRes
+  return result
+
+}
+
+export function scalarMultiplication(s, m) {
+
+  return m.map(row => row.map(el => s * el))
 
 }

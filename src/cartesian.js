@@ -19,6 +19,19 @@ export default class Cartesian {
     this.weights = []
   }
 
+  train(data) {
+
+    const normalizedData = helpers.normalize(data)
+
+    this._setWeights(normalizedData)
+
+    for (let i = 0; i < this.iterations; i++) {
+      this._forwardPropagation(normalizedData)
+      this._backwardPropagation()
+    }
+
+  }
+
   _backwardPropagation() {
 
     // TODO
@@ -64,19 +77,6 @@ export default class Cartesian {
       for (let j = 0; j < normalizedData.output[0].length; j++) {
         this.weights[1][i].push(0.5)
       }
-    }
-
-  }
-
-  train(data) {
-
-    const normalizedData = helpers.normalize(data)
-
-    this._setWeights(normalizedData)
-
-    for (let i = 0; i < this.iterations; i++) {
-      this._forwardPropagation(normalizedData)
-      this._backwardPropagation()
     }
 
   }
