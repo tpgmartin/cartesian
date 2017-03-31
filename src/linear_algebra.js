@@ -13,7 +13,7 @@ export function matrixAddition(m1, m2) {
   }
 
   for (let i = 0; i < m1.length; i++) {
-    for (let j = 0; j < m1.length; j++) {
+    for (let j = 0; j < m1[0].length; j++) {
       result[i].push(m1[i][j] + m2[i][j])
     }
   }
@@ -53,7 +53,7 @@ export function matrixSubtraction(m1, m2) {
   }
 
   for (let i = 0; i < m1.length; i++) {
-    for (let j = 0; j < m1.length; j++) {
+    for (let j = 0; j < m1[0].length; j++) {
       result[i].push(m1[i][j] - m2[i][j])
     }
   }

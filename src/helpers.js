@@ -2,15 +2,18 @@ import * as linear_algebra from './linear_algebra'
 
 export function logits(weightsForLayer, input, activation) {
 
-  const activationRes = linear_algebra.matrixMultiplication(weightsForLayer, input)
+  const result = {}
+  result.product = linear_algebra.matrixMultiplication(weightsForLayer, input)
+  // just want to apply activation function to product
+  result.activation = linear_algebra.matrixMultiplication(weightsForLayer, input)
 
-  for (let i = 0; i < activationRes.length; i++) {
-    for (let j = 0; j < activationRes[0].length; j++) {
-      activationRes[i][j] = activation(activationRes[i][j])
+  for (let i = 0; i < result.activation.length; i++) {
+    for (let j = 0; j < result.activation[0].length; j++) {
+      result.activation[i][j] = activation(result.activation[i][j])
     }
   }
 
-  return activationRes
+  return result
 
 }
 

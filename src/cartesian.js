@@ -1,4 +1,5 @@
 import * as helpers from './helpers'
+import * as linear_algebra from './linear_algebra'
 
 export default class Cartesian {
 
@@ -26,13 +27,13 @@ export default class Cartesian {
     this._setWeights(normalizedData)
 
     for (let i = 0; i < this.iterations; i++) {
-      this._forwardPropagation(normalizedData)
-      this._backwardPropagation()
+      const results = this._forwardPropagation(normalizedData)
+      /* const errors */ this._backwardPropagation(normalizedData, results)
     }
 
   }
 
-  _backwardPropagation() {
+  _backwardPropagation(normalizedData, results) {
 
     // TODO
     // 1. Declare activationDerivative
@@ -42,6 +43,12 @@ export default class Cartesian {
     //    * change
     //    * update weights for layer
     // 4. Return output error
+
+    // output to hidden
+    const error = linear_algebra.matrixSubtraction(normalizedData.output, results[results.length - 1].activation)
+    // /* let delta = */ linear_algebra.dotProduct(results[results.length - 1], error)
+
+    return error
 
   }
 
@@ -55,7 +62,7 @@ export default class Cartesian {
 
     // hidden to output
     results.push(helpers.logits(this.weights[this.weights.length - 1],
-                 results[results.length - 1], this.activation))
+                 results[results.length - 1].activation, this.activation))
 
     return results
 

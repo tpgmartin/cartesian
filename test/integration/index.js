@@ -132,8 +132,11 @@ describe('Cartesian', () => {
 
     })
 
-    it('should call forwardPropagation and ' +
-       'return network output vector', () => {
+  })
+
+  describe('_forwardPropagation', () => {
+
+    it('should return network output vector', () => {
 
       const weights = [
         [
@@ -156,6 +159,104 @@ describe('Cartesian', () => {
       cartesian.activation = activation
 
       const expectedOutput = [
+        {
+          activation: [
+            [ 0.5, 0.5, 0.5 ],
+            [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+            [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+            [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]
+          ],
+          product: [
+            [ 0, 0, 0 ],
+            [ 0.5, 0.5, 0.5 ],
+            [ 0.5, 0.5, 0.5 ],
+            [ 1, 1, 1 ]
+          ]
+        },
+        {
+          activation: [
+            [ 0.679178699175393 ],
+            [ 0.7178231032752898 ],
+            [ 0.7178231032752898 ],
+            [ 0.7496202290400685 ]
+          ],
+          product: [
+            [ 0.75 ],
+            [ 0.933688996802782 ],
+            [ 0.933688996802782 ],
+            [ 1.0965878679450074 ]
+          ]
+        }
+      ]
+
+      expect(cartesian._forwardPropagation(normalizedData))
+                      .to.deep.equal(expectedOutput)
+
+    })
+
+  })
+
+  describe('_backwardPropagation', () => {
+
+    it('should return output error vector', () => {
+
+      const normalizedData = {
+        input: [[0, 0], [0, 1], [1, 0], [1, 1]],
+        output: [[0], [1], [1], [0]]
+      }
+
+      const results = [
+        {
+          activation: [
+            [ 0.679178699175393 ],
+            [ 0.7178231032752898 ],
+            [ 0.7178231032752898 ],
+            [ 0.7496202290400685 ]
+          ],
+          product: [
+            [ 0.75 ],
+            [ 0.933688996802782 ],
+            [ 0.933688996802782 ],
+            [ 1.0965878679450074 ]
+          ]
+        }
+      ]
+
+      const expectedOutput = [
+        [ -0.679178699175393 ],
+        [ 0.28217689672471025 ],
+        [ 0.28217689672471025 ],
+        [ -0.7496202290400685 ]
+      ]
+
+      expect(cartesian._backwardPropagation(normalizedData, results))
+                      .to.deep.equal(expectedOutput)
+
+    })
+
+    it('should update weights array', () => {
+
+      const weights = [
+        [
+          [ 0.5, 0.5, 0.5 ],
+          [ 0.5, 0.5, 0.5 ]
+        ],
+        [
+          [ 0.5 ],
+          [ 0.5 ],
+          [ 0.5 ]
+        ]
+      ]
+      const normalizedData = {
+        input: [[0, 0], [0, 1], [1, 0], [1, 1]],
+        output: [[0], [1], [1], [0]]
+      }
+      const activation = helpers.sigmoid
+
+      cartesian.weights = weights
+      cartesian.activation = activation
+
+      const results = [
         [
           [ 0.5, 0.5, 0.5 ],
           [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
@@ -170,15 +271,12 @@ describe('Cartesian', () => {
         ]
       ]
 
-      expect(cartesian._forwardPropagation(normalizedData))
-                      .to.deep.equal(expectedOutput)
+      const expectedOutput = []
 
-    })
+      cartesian._forwardPropagation(normalizedData)
+      cartesian._backwardPropagation(normalizedData, results)
 
-    it('should call backwardPropagation and ' +
-       'return network output vector', () => {
-
-      throw Error
+      expect(cartesian.weights).to.deep.equal(expectedOutput)
 
     })
 
