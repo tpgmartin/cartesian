@@ -46,7 +46,7 @@ export default class Cartesian {
 
     // output to hidden
     const error = linear_algebra.matrixSubtraction(normalizedData.output, results[results.length - 1].activation)
-    // /* let delta = */ linear_algebra.dotProduct(results[results.length - 1], error)
+    // let delta = linear_algebra.dotProduct(results[results.length - 1].product., error)
 
     return error
 

@@ -68,6 +68,12 @@ export function scalarMultiplication(s, m) {
 
 }
 
+export function transform(m, fn) {
+
+  return m.map(row => row.map(el => fn(el)))
+
+}
+
 export function transpose(m) {
 
   const result = []

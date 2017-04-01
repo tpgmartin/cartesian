@@ -105,6 +105,24 @@ describe('Linear Algebra', () => {
 
   })
 
+  describe('transform', () => {
+
+    it('should apply function elementwise', () => {
+      const addOne = x => x += 1
+      const matrix = [[ 1, 2, 3 ],
+                      [ 4, 5, 6 ],
+                      [ 7, 8, 9 ]]
+
+      const expectedOutput = [[ 2, 3, 4 ],
+                              [ 5, 6, 7 ],
+                              [ 8, 9, 10 ]]
+
+      expect(linear_algebra.transform(matrix, addOne))
+                    .to.deep.equal(expectedOutput)
+    })
+
+  })
+
   describe('transpose', () => {
 
     it('should transpose matrix', () => {

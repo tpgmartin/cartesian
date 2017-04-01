@@ -4,14 +4,7 @@ export function logits(weightsForLayer, input, activation) {
 
   const result = {}
   result.product = linear_algebra.matrixMultiplication(weightsForLayer, input)
-  // just want to apply activation function to product
-  result.activation = linear_algebra.matrixMultiplication(weightsForLayer, input)
-
-  for (let i = 0; i < result.activation.length; i++) {
-    for (let j = 0; j < result.activation[0].length; j++) {
-      result.activation[i][j] = activation(result.activation[i][j])
-    }
-  }
+  result.activation = linear_algebra.transform(result.product, activation)
 
   return result
 

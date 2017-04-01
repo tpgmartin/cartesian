@@ -31,8 +31,6 @@ describe('Helpers', () => {
         ]
       }
 
-      console.log(helpers.logits(weights, input, activation))
-
       expect(helpers.logits(weights, input, activation))
                     .to.deep.equal(expectedOutput)
     })
