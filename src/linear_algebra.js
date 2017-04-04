@@ -1,6 +1,20 @@
-export function dotProduct(m1, m2) {
+// Scalar is array of form [[ <scalar value> ]]
 
-  return matrixMultiplication(m1, transpose(m2))
+export function hadamardProduct(m1, m2) {
+
+  const result = []
+
+  for (let i = 0; i < m2.length; i++) {
+    result.push([])
+  }
+
+  for (let i = 0; i < m2.length; i++) {
+    for (let j = 0; j < m2[0].length; j++) {
+      result[i].push(m1[i][j] * m2[i][j])
+    }
+  }
+
+  return result
 
 }
 

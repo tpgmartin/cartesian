@@ -1,5 +1,5 @@
 import * as helpers from './helpers'
-import * as linear_algebra from './linear_algebra'
+import { hadamardProduct, matrixAddition, matrixMultiplication, matrixSubtraction, scalarMultiplication, transform, transpose } from './linear_algebra'
 
 export default class Cartesian {
 
@@ -35,18 +35,20 @@ export default class Cartesian {
 
   _backwardPropagation(normalizedData, results) {
 
-    // TODO
-    // 1. Declare activationDerivative
-    // 2. Find error, subtract ouput vector from results vector
-    // 3. For each layer find,
-    //    * weight delta
-    //    * change
-    //    * update weights for layer
-    // 4. Return output error
+    const learningRate = [[this.learningRate]]
+    const weights = this.weights
 
     // output to hidden
-    const error = linear_algebra.matrixSubtraction(normalizedData.output, results[results.length - 1].activation)
-    // let delta = linear_algebra.dotProduct(results[results.length - 1].product., error)
+    const error = matrixSubtraction(normalizedData.output, results[results.length - 1].activation)
+    let activation = transform(results[results.length - 1].product, this.activationDerivative)
+    let delta = hadamardProduct(activation, error)
+    let update = scalarMultiplication(learningRate, matrixMultiplication(delta, transpose(results[0].activation)))
+    weights[weights.length - 1] = matrixAddition(weights[weights.length - 1], update)
+
+    // hidden to inputt
+    delta = hadamardProduct(matrixMultiplication(transpose(weights[1]), delta), transform(results[0].product, this.activationDerivative))
+    update = scalarMultiplication(learningRate, matrixMultiplication(delta, transpose(normalizedData.input)))
+    weights[0] = matrixAddition(weights[0], update)
 
     return error
 

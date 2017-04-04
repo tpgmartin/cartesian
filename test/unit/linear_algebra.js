@@ -5,15 +5,15 @@ import * as linear_algebra from '../../src/linear_algebra'
 
 describe('Linear Algebra', () => {
 
-  describe('dotProduct', () => {
+  describe('hadamardProduct', () => {
 
     it('should return dot product of valid matrix', () => {
       const A = [[1], [2], [3]]
       const B = [[4], [5], [6]]
 
-      const expectedOutput = [[32]]
+      const expectedOutput = [[4], [10], [18]]
 
-      expect(linear_algebra.dotProduct(A, B))
+      expect(linear_algebra.hadamardProduct(A, B))
                     .to.deep.equal(expectedOutput)
     })
 

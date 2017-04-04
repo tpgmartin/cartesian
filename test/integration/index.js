@@ -83,6 +83,8 @@ describe('Cartesian', () => {
 
       sinon.spy(cartesian, '_setWeights')
 
+      cartesian.iterations = 0
+
       cartesian.train([
         { input: [0, 0], output: [0] },
         { input: [0, 1], output: [1] },
@@ -196,31 +198,61 @@ describe('Cartesian', () => {
 
   })
 
-  describe.only('_backwardPropagation', () => {
+  describe('_backwardPropagation', () => {
+
+    const normalizedData = {
+      input: [[0, 0], [0, 1], [1, 0], [1, 1]],
+      output: [[0], [1], [1], [0]]
+    }
+    const activation = helpers.sigmoid
+
+    const results = [
+      {
+        activation: [
+          [ 0.5, 0.5, 0.5 ],
+          [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+          [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
+          [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]
+        ],
+        product: [
+          [ 0, 0, 0 ],
+          [ 0.5, 0.5, 0.5 ],
+          [ 0.5, 0.5, 0.5 ],
+          [ 1, 1, 1 ]
+        ]
+      },
+      {
+        activation: [
+          [ 0.679178699175393 ],
+          [ 0.7178231032752898 ],
+          [ 0.7178231032752898 ],
+          [ 0.7496202290400685 ]
+        ],
+        product: [
+          [ 0.75 ],
+          [ 0.933688996802782 ],
+          [ 0.933688996802782 ],
+          [ 1.0965878679450074 ]
+        ]
+      }
+    ]
 
     it('should return output error vector', () => {
 
-      const normalizedData = {
-        input: [[0, 0], [0, 1], [1, 0], [1, 1]],
-        output: [[0], [1], [1], [0]]
-      }
-
-      const results = [
-        {
-          activation: [
-            [ 0.679178699175393 ],
-            [ 0.7178231032752898 ],
-            [ 0.7178231032752898 ],
-            [ 0.7496202290400685 ]
-          ],
-          product: [
-            [ 0.75 ],
-            [ 0.933688996802782 ],
-            [ 0.933688996802782 ],
-            [ 1.0965878679450074 ]
-          ]
-        }
+      const weights = [
+        [
+          [ 0.5, 0.5, 0.5 ],
+          [ 0.5, 0.5, 0.5 ]
+        ],
+        [
+          [ 0.5 ],
+          [ 0.5 ],
+          [ 0.5 ]
+        ]
       ]
+
+      cartesian.weights = weights
+      cartesian.activation = activation
 
       const expectedOutput = [
         [ -0.679178699175393 ],
@@ -247,47 +279,21 @@ describe('Cartesian', () => {
           [ 0.5 ]
         ]
       ]
-      const normalizedData = {
-        input: [[0, 0], [0, 1], [1, 0], [1, 1]],
-        output: [[0], [1], [1], [0]]
-      }
-      const activation = helpers.sigmoid
 
       cartesian.weights = weights
       cartesian.activation = activation
 
-      const results = [
-        {
-          activation: [
-            [ 0.5, 0.5, 0.5 ],
-            [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-            [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-            [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]
-          ],
-          product: [
-            [ 0, 0, 0 ],
-            [ 0.5, 0.5, 0.5 ],
-            [ 0.5, 0.5, 0.5 ],
-            [ 1, 1, 1 ]
-          ]
-        },
-        {
-          activation: [
-            [ 0.679178699175393 ],
-            [ 0.7178231032752898 ],
-            [ 0.7178231032752898 ],
-            [ 0.7496202290400685 ]
-          ],
-          product: [
-            [ 0.75 ],
-            [ 0.933688996802782 ],
-            [ 0.933688996802782 ],
-            [ 1.0965878679450074 ]
-          ]
-        }
+      const expectedOutput = [
+        [
+          [ 0.4993035069031385, 0.4993035069031385, 0.4993035069031385 ],
+          [ 0.4993035069031385, 0.4993035069031385, 0.4993035069031385 ],
+        ],
+        [
+          [ 0.48943024704142946 ],
+          [ 0.48943024704142946 ],
+          [ 0.48943024704142946 ]
+        ]
       ]
-
-      const expectedOutput = []
 
       cartesian._forwardPropagation(normalizedData)
       cartesian._backwardPropagation(normalizedData, results)
