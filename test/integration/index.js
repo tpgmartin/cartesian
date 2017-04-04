@@ -94,13 +94,13 @@ describe('Cartesian', () => {
 
       const expectedOutput = [
         [
-          [ 0.5, 0.5, 0.5 ],
-          [ 0.5, 0.5, 0.5 ]
+          [0.5, 0.5, 0.5],
+          [0.5, 0.5, 0.5]
         ],
         [
-          [ 0.5 ],
-          [ 0.5 ],
-          [ 0.5 ]
+          [0.5],
+          [0.5],
+          [0.5]
         ]
       ]
 
@@ -112,7 +112,7 @@ describe('Cartesian', () => {
     })
 
     it('should call forwardPropagation, backwardPropagation number of times ' +
-       'equal to \'iterations\'', () => {
+      'equal to \'iterations\'', () => {
 
       sinon.spy(cartesian, '_forwardPropagation')
       sinon.spy(cartesian, '_backwardPropagation')
@@ -125,12 +125,52 @@ describe('Cartesian', () => {
       ])
 
       expect(cartesian._forwardPropagation.callCount)
-                                          .to.equal(cartesian.iterations)
+        .to.equal(cartesian.iterations)
       expect(cartesian._backwardPropagation.callCount)
-                                           .to.equal(cartesian.iterations)
+        .to.equal(cartesian.iterations)
 
       cartesian._forwardPropagation.restore()
       cartesian._backwardPropagation.restore()
+
+    })
+
+    it('should update weights', () => {
+
+      const weights = [
+        [
+          [0.5, 0.5, 0.5],
+          [0.5, 0.5, 0.5]
+        ],
+        [
+          [0.5],
+          [0.5],
+          [0.5]
+        ]
+      ]
+
+      cartesian.weights = weights
+
+      const expectedOutput = [
+        [
+          [0.4993035069031385, 0.4993035069031385, 0.4993035069031385],
+          [0.4993035069031385, 0.4993035069031385, 0.4993035069031385],
+        ],
+        [
+          [0.48943024704142946],
+          [0.48943024704142946],
+          [0.48943024704142946]
+        ]
+      ]
+
+      cartesian.train([
+        { input: [0, 0], output: [0] },
+        { input: [0, 1], output: [1] },
+        { input: [1, 0], output: [1] },
+        { input: [1, 1], output: [0] }
+      ])
+
+      expect(cartesian.weights)
+        .to.equal(expectedOutput)
 
     })
 
@@ -142,57 +182,55 @@ describe('Cartesian', () => {
 
       const weights = [
         [
-          [ 0.5, 0.5, 0.5 ],
-          [ 0.5, 0.5, 0.5 ]
+          [0.5, 0.5, 0.5],
+          [0.5, 0.5, 0.5]
         ],
         [
-          [ 0.5 ],
-          [ 0.5 ],
-          [ 0.5 ]
+          [0.5],
+          [0.5],
+          [0.5]
         ]
       ]
       const normalizedData = {
         input: [[0, 0], [0, 1], [1, 0], [1, 1]],
         output: [[0], [1], [1], [0]]
       }
-      const activation = helpers.sigmoid
 
       cartesian.weights = weights
-      cartesian.activation = activation
 
       const expectedOutput = [
         {
           activation: [
-            [ 0.5, 0.5, 0.5 ],
-            [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-            [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-            [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]
+            [0.5, 0.5, 0.5],
+            [0.6224593312018546, 0.6224593312018546, 0.6224593312018546],
+            [0.6224593312018546, 0.6224593312018546, 0.6224593312018546],
+            [0.7310585786300049, 0.7310585786300049, 0.7310585786300049]
           ],
           product: [
-            [ 0, 0, 0 ],
-            [ 0.5, 0.5, 0.5 ],
-            [ 0.5, 0.5, 0.5 ],
-            [ 1, 1, 1 ]
+            [0, 0, 0],
+            [0.5, 0.5, 0.5],
+            [0.5, 0.5, 0.5],
+            [1, 1, 1]
           ]
         },
         {
           activation: [
-            [ 0.679178699175393 ],
-            [ 0.7178231032752898 ],
-            [ 0.7178231032752898 ],
-            [ 0.7496202290400685 ]
+            [0.679178699175393],
+            [0.7178231032752898],
+            [0.7178231032752898],
+            [0.7496202290400685]
           ],
           product: [
-            [ 0.75 ],
-            [ 0.933688996802782 ],
-            [ 0.933688996802782 ],
-            [ 1.0965878679450074 ]
+            [0.75],
+            [0.933688996802782],
+            [0.933688996802782],
+            [1.0965878679450074]
           ]
         }
       ]
 
       expect(cartesian._forwardPropagation(normalizedData))
-                      .to.deep.equal(expectedOutput)
+        .to.deep.equal(expectedOutput)
 
     })
 
@@ -204,35 +242,34 @@ describe('Cartesian', () => {
       input: [[0, 0], [0, 1], [1, 0], [1, 1]],
       output: [[0], [1], [1], [0]]
     }
-    const activation = helpers.sigmoid
 
     const results = [
       {
         activation: [
-          [ 0.5, 0.5, 0.5 ],
-          [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-          [ 0.6224593312018546, 0.6224593312018546, 0.6224593312018546 ],
-          [ 0.7310585786300049, 0.7310585786300049, 0.7310585786300049 ]
+          [0.5, 0.5, 0.5],
+          [0.6224593312018546, 0.6224593312018546, 0.6224593312018546],
+          [0.6224593312018546, 0.6224593312018546, 0.6224593312018546],
+          [0.7310585786300049, 0.7310585786300049, 0.7310585786300049]
         ],
         product: [
-          [ 0, 0, 0 ],
-          [ 0.5, 0.5, 0.5 ],
-          [ 0.5, 0.5, 0.5 ],
-          [ 1, 1, 1 ]
+          [0, 0, 0],
+          [0.5, 0.5, 0.5],
+          [0.5, 0.5, 0.5],
+          [1, 1, 1]
         ]
       },
       {
         activation: [
-          [ 0.679178699175393 ],
-          [ 0.7178231032752898 ],
-          [ 0.7178231032752898 ],
-          [ 0.7496202290400685 ]
+          [0.679178699175393],
+          [0.7178231032752898],
+          [0.7178231032752898],
+          [0.7496202290400685]
         ],
         product: [
-          [ 0.75 ],
-          [ 0.933688996802782 ],
-          [ 0.933688996802782 ],
-          [ 1.0965878679450074 ]
+          [0.75],
+          [0.933688996802782],
+          [0.933688996802782],
+          [1.0965878679450074]
         ]
       }
     ]
@@ -241,28 +278,27 @@ describe('Cartesian', () => {
 
       const weights = [
         [
-          [ 0.5, 0.5, 0.5 ],
-          [ 0.5, 0.5, 0.5 ]
+          [0.5, 0.5, 0.5],
+          [0.5, 0.5, 0.5]
         ],
         [
-          [ 0.5 ],
-          [ 0.5 ],
-          [ 0.5 ]
+          [0.5],
+          [0.5],
+          [0.5]
         ]
       ]
 
       cartesian.weights = weights
-      cartesian.activation = activation
 
       const expectedOutput = [
-        [ -0.679178699175393 ],
-        [ 0.28217689672471025 ],
-        [ 0.28217689672471025 ],
-        [ -0.7496202290400685 ]
+        [-0.679178699175393],
+        [0.28217689672471025],
+        [0.28217689672471025],
+        [-0.7496202290400685]
       ]
 
       expect(cartesian._backwardPropagation(normalizedData, results))
-                      .to.deep.equal(expectedOutput)
+        .to.deep.equal(expectedOutput)
 
     })
 
@@ -270,28 +306,27 @@ describe('Cartesian', () => {
 
       const weights = [
         [
-          [ 0.5, 0.5, 0.5 ],
-          [ 0.5, 0.5, 0.5 ]
+          [0.5, 0.5, 0.5],
+          [0.5, 0.5, 0.5]
         ],
         [
-          [ 0.5 ],
-          [ 0.5 ],
-          [ 0.5 ]
+          [0.5],
+          [0.5],
+          [0.5]
         ]
       ]
 
       cartesian.weights = weights
-      cartesian.activation = activation
 
       const expectedOutput = [
         [
-          [ 0.4993035069031385, 0.4993035069031385, 0.4993035069031385 ],
-          [ 0.4993035069031385, 0.4993035069031385, 0.4993035069031385 ],
+          [0.4993035069031385, 0.4993035069031385, 0.4993035069031385],
+          [0.4993035069031385, 0.4993035069031385, 0.4993035069031385],
         ],
         [
-          [ 0.48943024704142946 ],
-          [ 0.48943024704142946 ],
-          [ 0.48943024704142946 ]
+          [0.48943024704142946],
+          [0.48943024704142946],
+          [0.48943024704142946]
         ]
       ]
 
@@ -299,6 +334,16 @@ describe('Cartesian', () => {
       cartesian._backwardPropagation(normalizedData, results)
 
       expect(cartesian.weights).to.deep.equal(expectedOutput)
+
+    })
+
+  })
+
+  describe('predict', () => {
+
+    it('should do something', () => {
+
+      throw Error
 
     })
 

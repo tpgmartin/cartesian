@@ -27,8 +27,8 @@ export default class Cartesian {
     this._setWeights(normalizedData)
 
     for (let i = 0; i < this.iterations; i++) {
-      const results = this._forwardPropagation(normalizedData)
-      /* const errors */ this._backwardPropagation(normalizedData, results)
+      this._backwardPropagation(normalizedData,
+                                this._forwardPropagation(normalizedData))
     }
 
   }
